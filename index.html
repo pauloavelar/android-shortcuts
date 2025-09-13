@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Android shortcuts - Quick access to Android settings and features">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Android Shortcuts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .shortcut-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .shortcut-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .shortcut-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        .info {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .shortcut-button {
+                padding: 18px 30px;
+                font-size: 1.1rem;
+                min-width: 220px;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Android Shortcuts</h1>
+        <p class="description">Quick access to Android settings and system features</p>
+        
+        <a href="intent://com.android.settings#Intent;scheme=android-app;end" 
+           class="shortcut-button" 
+           onclick="openAndroidSettings(event)">
+            <span class="icon">⚙️</span>
+            Open Settings
+        </a>
+        
+        <div class="info">
+            <p>This shortcut opens the Android Settings app directly on compatible devices.</p>
+            <p>Works best on Android devices with Chrome or compatible browsers.</p>
+        </div>
+    </div>
+
+    <script>
+        function openAndroidSettings(event) {
+            // Prevent default link behavior
+            event.preventDefault();
+            
+            // Try to open the Android settings intent
+            try {
+                // Primary intent format for Android settings
+                window.location.href = 'intent://com.android.settings#Intent;scheme=android-app;end';
+                
+                // Fallback: try alternative intent format after a short delay
+                setTimeout(() => {
+                    window.location.href = 'android-app://com.android.settings';
+                }, 500);
+                
+            } catch (error) {
+                console.log('Intent not supported on this device/browser');
+                
+                // Fallback for non-Android devices
+                alert('This feature is designed for Android devices. Please use an Android device with a compatible browser.');
+            }
+        }
+
+        // Add visual feedback for touch devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.querySelector('.shortcut-button');
+            
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'translateY(0px)';
+            });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+        });
+    </script>
+</body>
+</html>
